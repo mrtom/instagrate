@@ -107,14 +107,32 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
     }
     
     // Save the new image
-    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
-    [imageView setImage:image];
+    UIImage *originalImage = [info objectForKey:UIImagePickerControllerOriginalImage];
+    UIImage *image = [self cropImage:originalImage];
     
+    [imageView setImage:image];
     NSData *d = UIImageJPEGRepresentation(image, 1.0);
     [d writeToFile:[self imagePath] atomically:YES];
     
     [self setHasImage:YES];
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+static inline double radians (double degrees) {return degrees * M_PI/180;}
+- (UIImage *)cropImage:(UIImage *)originalImage
+{
+    
+    CGFloat imageSize = MIN(originalImage.size.width, originalImage.size.height);
+    
+    CGFloat xcrop = (originalImage.size.width - imageSize)/2;
+    CGFloat ycrop = (originalImage.size.height - imageSize)/2;
+    
+    CGImageRef imageRef = CGImageCreateWithImageInRect([originalImage CGImage], CGRectMake(xcrop, ycrop, imageSize, imageSize));
+    UIImage *image = [UIImage imageWithCGImage:imageRef];
+
+    CGImageRelease(imageRef);
+    
+    return image;
 }
 
 - (NSString *)imagePath
