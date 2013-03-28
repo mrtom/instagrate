@@ -31,7 +31,7 @@ bool hasImage;
     
     textView.layer.borderColor = [UIColor lightGrayColor].CGColor;
     textView.layer.borderWidth = 1.0f;
-    textView.layer.cornerRadius = 5.0;
+    textView.layer.cornerRadius = 8.0;
     textView.clipsToBounds = YES;
 }
 
@@ -54,7 +54,7 @@ bool hasImage;
         self.docInteractionController.URL = url;
     }
     
-    NSDictionary *annotation = [[NSDictionary alloc] initWithObjectsAndKeys:textView.text, INSTA_CAPTION_KEY, nil];
+    NSDictionary *annotation = [[NSDictionary alloc] initWithObjectsAndKeys:[NSString stringWithFormat:@"%@ %@", textView.text, @"#instagrate"], INSTA_CAPTION_KEY, nil];
     self.docInteractionController.annotation = annotation;
 }
 
