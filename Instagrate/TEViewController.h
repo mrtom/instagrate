@@ -14,6 +14,7 @@
     IBOutlet UITextView *textView;
     IBOutlet UIImageView *imageView;
     IBOutlet UIButton *takePhotoButton;
+    IBOutlet UIButton *removePhotoButton;
     IBOutlet UIButton *shareToInstagramButton;
     
     UIPopoverController *photoPickerPopover;
@@ -23,7 +24,7 @@
 @property (nonatomic, retain) UIDocumentInteractionController *docInteractionController;
 
 - (IBAction)takePhoto:(id)sender;
-- (IBAction)backgroundTapped:(id)sender;
+- (IBAction)removePhoto:(id)sender;
 - (IBAction)passToInstagram:(id)sender;
 
 @end

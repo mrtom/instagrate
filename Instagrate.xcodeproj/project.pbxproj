@@ -18,6 +18,9 @@
 		455E295917037684004721CC /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 455E295817037684004721CC /* Default-568h@2x.png */; };
 		455E295C17037684004721CC /* TEViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 455E295B17037684004721CC /* TEViewController.m */; };
 		455E295F17037684004721CC /* TEViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 455E295D17037684004721CC /* TEViewController.xib */; };
+		455E296617045E26004721CC /* remove.png in Resources */ = {isa = PBXBuildFile; fileRef = 455E296517045E26004721CC /* remove.png */; };
+		455E296817046128004721CC /* sample.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 455E296717046128004721CC /* sample.jpg */; };
+		455E296A170479EC004721CC /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 455E2969170479EC004721CC /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +40,9 @@
 		455E295A17037684004721CC /* TEViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TEViewController.h; sourceTree = "<group>"; };
 		455E295B17037684004721CC /* TEViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TEViewController.m; sourceTree = "<group>"; };
 		455E295E17037684004721CC /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/TEViewController.xib; sourceTree = "<group>"; };
+		455E296517045E26004721CC /* remove.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = remove.png; sourceTree = "<group>"; };
+		455E296717046128004721CC /* sample.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sample.jpg; sourceTree = "<group>"; };
+		455E2969170479EC004721CC /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,6 +50,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				455E296A170479EC004721CC /* QuartzCore.framework in Frameworks */,
 				455E294317037684004721CC /* UIKit.framework in Frameworks */,
 				455E294517037684004721CC /* Foundation.framework in Frameworks */,
 				455E294717037684004721CC /* CoreGraphics.framework in Frameworks */,
@@ -73,6 +80,7 @@
 		455E294117037684004721CC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				455E2969170479EC004721CC /* QuartzCore.framework */,
 				455E294217037684004721CC /* UIKit.framework */,
 				455E294417037684004721CC /* Foundation.framework */,
 				455E294617037684004721CC /* CoreGraphics.framework */,
@@ -96,6 +104,8 @@
 		455E294917037684004721CC /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				455E296717046128004721CC /* sample.jpg */,
+				455E296517045E26004721CC /* remove.png */,
 				455E294A17037684004721CC /* Instagrate-Info.plist */,
 				455E294B17037684004721CC /* InfoPlist.strings */,
 				455E294E17037684004721CC /* main.m */,
@@ -164,6 +174,8 @@
 				455E295717037684004721CC /* Default@2x.png in Resources */,
 				455E295917037684004721CC /* Default-568h@2x.png in Resources */,
 				455E295F17037684004721CC /* TEViewController.xib in Resources */,
+				455E296617045E26004721CC /* remove.png in Resources */,
+				455E296817046128004721CC /* sample.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

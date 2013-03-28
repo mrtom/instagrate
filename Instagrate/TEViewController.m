@@ -8,6 +8,8 @@
 
 #import "TEViewController.h"
 
+#import <QuartzCore/QuartzCore.h>
+
 #define KEY @"photo.igo"
 #define INSTA_UTI @"com.instagram.photo"
 #define INSTA_CAPTION_KEY @"InstagramCaption"
@@ -26,6 +28,11 @@ bool hasImage;
 {
     [super viewDidLoad];
 	[self setHasImage:NO];
+    
+    textView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    textView.layer.borderWidth = 1.0f;
+    textView.layer.cornerRadius = 5.0;
+    textView.clipsToBounds = YES;
 }
 
 - (void)didReceiveMemoryWarning
@@ -56,6 +63,7 @@ bool hasImage;
     hasImage = imageSet;
     takePhotoButton.hidden = imageSet;
     shareToInstagramButton.hidden = !imageSet;
+    removePhotoButton.hidden = !imageSet;
 }
 
 - (IBAction)takePhoto:(id)sender
@@ -71,15 +79,23 @@ bool hasImage;
     // Check camera is available (i.e. not simulator/iPod touch)
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         [imagePicker setSourceType:UIImagePickerControllerSourceTypeCamera];
+        
+        // OK, so we're on a device, and we have a camera. Awesome.
+        [imagePicker setDelegate:self];
+        [self presentViewController:imagePicker animated:YES completion:nil];
     } else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Schucks!" message:@"This app needs to run on a device with a camera, i.e a physical iPhone. Sorry kiddo" delegate:nil cancelButtonTitle:@"Gotcha!" otherButtonTitles:nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Woah there!" message:@"You can't open a camera on the simulator. So I'll just put in a stock picture of my friend Claudia." delegate:nil cancelButtonTitle:@"Thanks kiddo!" otherButtonTitles:nil];
         [alert show];
-        return;
-    }
-    
-    // OK, so we're on a device, and we have a camera. Awesome.
-    [imagePicker setDelegate:self];
-    [self presentViewController:imagePicker animated:YES completion:nil];
+        [imageView setImage:[UIImage imageNamed:@"sample.jpg"]];
+        [self setHasImage:YES];
+    }    
+}
+
+- (IBAction)removePhoto:(id)sender
+{
+    [[NSFileManager defaultManager] removeItemAtPath:[self imagePath] error:NULL];
+    [imageView setImage:nil];
+    [self setHasImage:NO];
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker
@@ -87,8 +103,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     // Remove old image first, if necessary
     if (hasImage) {
-        [[NSFileManager defaultManager] removeItemAtPath:[self imagePath] error:NULL];
-        [self setHasImage:NO];
+        [self removePhoto:nil];
     }
     
     // Save the new image
