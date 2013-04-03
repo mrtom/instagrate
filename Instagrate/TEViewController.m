@@ -9,6 +9,7 @@
 #import "TEViewController.h"
 
 #import <QuartzCore/QuartzCore.h>
+#import <math.h>
 
 #define KEY @"photo.igo"
 #define INSTA_UTI @"com.instagram.photo"
@@ -33,6 +34,16 @@ bool hasImage;
     textView.layer.borderWidth = 1.0f;
     textView.layer.cornerRadius = 8.0;
     textView.clipsToBounds = YES;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    if (hasImage) {
+        UIImage *image = [UIImage imageWithContentsOfFile:[self imagePath]];
+        [imageView setImage:image];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -108,6 +119,8 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
     
     // Save the new image
     UIImage *originalImage = [info objectForKey:UIImagePickerControllerOriginalImage];
+    //UIImage *image = [self cropImage:[self rotateImage:originalImage]];
+    //UIImage *image = originalImage;
     UIImage *image = [self cropImage:originalImage];
     
     [imageView setImage:image];
@@ -118,21 +131,82 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-static inline double radians (double degrees) {return degrees * M_PI/180;}
+static inline CGFloat radians (CGFloat degrees) {return degrees * M_PI/180;}
 - (UIImage *)cropImage:(UIImage *)originalImage
 {
+    CGFloat imageSide = MIN(originalImage.size.width, originalImage.size.height);
     
-    CGFloat imageSize = MIN(originalImage.size.width, originalImage.size.height);
+    CGFloat xcrop = (originalImage.size.width - imageSide)/2;
+    CGFloat ycrop = (originalImage.size.height - imageSide)/2;
     
-    CGFloat xcrop = (originalImage.size.width - imageSize)/2;
-    CGFloat ycrop = (originalImage.size.height - imageSize)/2;
+    NSLog(@"Image width %f : height %f", originalImage.size.width, originalImage.size.height);
+    NSLog(@"xcrop %f : ycrop %f", xcrop, ycrop);
     
-    CGImageRef imageRef = CGImageCreateWithImageInRect([originalImage CGImage], CGRectMake(xcrop, ycrop, imageSize, imageSize));
-    UIImage *image = [UIImage imageWithCGImage:imageRef];
+    CGRect selectionRect = CGRectMake(xcrop, ycrop, imageSide, imageSide);
+    CGRect transformedRect = TransformCGRectForUIImageOrientation(selectionRect, originalImage.imageOrientation, originalImage.size);
+    CGImageRef croppedImageRef = CGImageCreateWithImageInRect(originalImage.CGImage, transformedRect);
+    UIImage *croppedImage = [[UIImage alloc] initWithCGImage:croppedImageRef];
+    CGImageRelease(croppedImageRef);
+    
+    // Next, rotate image by PI_2 (as camera assumes landscape, not portrait)
+    UIGraphicsBeginImageContext(transformedRect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    switch (originalImage.imageOrientation) {
+        case UIImageOrientationLeft:
+            CGContextRotateCTM(context, M_PI+M_PI_2);
+            CGContextTranslateCTM(context, -ycrop-imageSide, 0);
+            break;
+        case UIImageOrientationDown:
+            CGContextRotateCTM(context, M_PI);
+            CGContextTranslateCTM(context, -imageSide-xcrop, -imageSide);
+            break;
+        case UIImageOrientationRight:
+            CGContextRotateCTM(context, M_PI_2);
+            CGContextTranslateCTM(context, -ycrop, -imageSide);
+            break;
+        case UIImageOrientationUp:
+            CGContextTranslateCTM(context, -xcrop, 0);
+            break;
+        default:
+            // Do nothing
+            break;
+    }
 
-    CGImageRelease(imageRef);
+    // Fix for Quart 2D's different coord system
+    CGContextTranslateCTM(context, 0, imageSide);
+    CGContextScaleCTM(context, 1.0, -1.0);
     
-    return image;
+    CGContextDrawImage(context, transformedRect, croppedImage.CGImage);
+    UIImage *resultImage = UIGraphicsGetImageFromCurrentImageContext();
+    CGContextRelease(context);
+    
+    //return croppedImage;
+    return resultImage;
+}
+
+// Thanks to http://www.niftybean.com/2009/10/selecting-regions-from-rotated-exif-images-on-iphone/
+CGRect TransformCGRectForUIImageOrientation(CGRect source, UIImageOrientation orientation, CGSize imageSize) {
+    switch (orientation) {
+        case UIImageOrientationLeft: { // EXIF #8
+            CGAffineTransform txTranslate = CGAffineTransformMakeTranslation(imageSize.height, 0.0);
+            CGAffineTransform txCompound = CGAffineTransformRotate(txTranslate,M_PI_2);
+            return CGRectApplyAffineTransform(source, txCompound);
+        }
+        case UIImageOrientationDown: { // EXIF #3
+            CGAffineTransform txTranslate = CGAffineTransformMakeTranslation(imageSize.width, imageSize.height);
+            CGAffineTransform txCompound = CGAffineTransformRotate(txTranslate,M_PI);
+            return CGRectApplyAffineTransform(source, txCompound);
+        }
+        case UIImageOrientationRight: { // EXIF #6
+            CGAffineTransform txTranslate = CGAffineTransformMakeTranslation(0.0, imageSize.width);
+            CGAffineTransform txCompound = CGAffineTransformRotate(txTranslate,M_PI + M_PI_2);
+            return CGRectApplyAffineTransform(source, txCompound);
+        }
+        case UIImageOrientationUp: // EXIF #1 - do nothing
+        default: // EXIF 2,4,5,7 - ignore
+            return source;
+    }
 }
 
 - (NSString *)imagePath
