@@ -129,16 +129,16 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-static inline CGFloat radians (CGFloat degrees) {return degrees * M_PI/180;}
 - (UIImage *)cropImage:(UIImage *)originalImage
 {
+    // TODO: This should be made more efficient by removing the
+    // intermediate croppedImage. CGContextClipToRect can probably
+    // help here, but the maths gets a bit tricky
+    
     CGFloat imageSide = MIN(originalImage.size.width, originalImage.size.height);
     
     CGFloat xcrop = (originalImage.size.width - imageSide)/2;
     CGFloat ycrop = (originalImage.size.height - imageSide)/2;
-    
-    NSLog(@"Image width %f : height %f", originalImage.size.width, originalImage.size.height);
-    NSLog(@"xcrop %f : ycrop %f", xcrop, ycrop);
     
     CGRect selectionRect = CGRectMake(xcrop, ycrop, imageSide, imageSide);
     CGRect transformedRect = TransformCGRectForUIImageOrientation(selectionRect, originalImage.imageOrientation, originalImage.size);
@@ -170,7 +170,7 @@ static inline CGFloat radians (CGFloat degrees) {return degrees * M_PI/180;}
             break;
     }
 
-    // Fix for Quart 2D's different coord system
+    // Fix for Quartz 2D's different coord system
     CGContextTranslateCTM(context, 0, imageSide);
     CGContextScaleCTM(context, 1.0, -1.0);
     
