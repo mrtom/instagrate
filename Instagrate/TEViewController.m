@@ -146,7 +146,6 @@ static inline CGFloat radians (CGFloat degrees) {return degrees * M_PI/180;}
     UIImage *croppedImage = [[UIImage alloc] initWithCGImage:croppedImageRef];
     CGImageRelease(croppedImageRef);
     
-    // Next, rotate image by PI_2 (as camera assumes landscape, not portrait)
     UIGraphicsBeginImageContext(transformedRect.size);
     CGContextRef context = UIGraphicsGetCurrentContext();
     
