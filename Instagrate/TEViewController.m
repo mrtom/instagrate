@@ -119,8 +119,6 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
     
     // Save the new image
     UIImage *originalImage = [info objectForKey:UIImagePickerControllerOriginalImage];
-    //UIImage *image = [self cropImage:[self rotateImage:originalImage]];
-    //UIImage *image = originalImage;
     UIImage *image = [self cropImage:originalImage];
     
     [imageView setImage:image];
@@ -177,11 +175,11 @@ static inline CGFloat radians (CGFloat degrees) {return degrees * M_PI/180;}
     CGContextTranslateCTM(context, 0, imageSide);
     CGContextScaleCTM(context, 1.0, -1.0);
     
+    // Draw the image
     CGContextDrawImage(context, transformedRect, croppedImage.CGImage);
     UIImage *resultImage = UIGraphicsGetImageFromCurrentImageContext();
     CGContextRelease(context);
     
-    //return croppedImage;
     return resultImage;
 }
 
