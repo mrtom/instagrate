@@ -12,5 +12,5 @@ Just because. More accurately, just because it wasn't clear to me how this API w
 ![Take Picture](https://raw.github.com/mrtom/instagrate/master/doc_resources/instagrate_takePicture.png "Take Picture")
 ![Share to Instagram](https://raw.github.com/mrtom/instagrate/master/doc_resources/instagrate_shareToInstagram.png "Share to Instagram")
 ![Add filter](https://raw.github.com/mrtom/instagrate/master/doc_resources/instagram_filter.png "Add filter")
-![Share](https://raw.github.com/mrtom/instagrate/master/doc_resources/instagram_share.png "share")
+![Share](https://raw.github.com/mrtom/instagrate/master/doc_resources/instagram_share.png "Share")
 
