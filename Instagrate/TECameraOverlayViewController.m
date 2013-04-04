@@ -43,8 +43,8 @@
     [activateShutterButton setBackgroundColor:[UIColor whiteColor]];
     [activateShutterButton setImage:[UIImage imageNamed:@"camera"] forState:UIControlStateNormal];
 
-    [activateShutterButton addTarget:self.delegate
-                     action:@selector(activateShutter) forControlEvents:UIControlEventTouchUpInside];
+    [activateShutterButton addTarget:self
+                              action:@selector(takePicture:) forControlEvents:UIControlEventTouchUpInside];
     activateShutterButton.frame = CGRectMake(130, 380, 60, 60);
     [activateShutterButton.layer setCornerRadius:30];
     [activateShutterButton.layer setBorderWidth:4.0];
@@ -54,8 +54,8 @@
     [self.view addSubview:activateShutterButton];
     
     cancelCameraButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [cancelCameraButton addTarget:self.delegate
-                           action:@selector(cancelCamera) forControlEvents:UIControlEventTouchUpInside];
+    [cancelCameraButton addTarget:self
+                           action:@selector(cancelCamera:) forControlEvents:UIControlEventTouchUpInside];
     cancelCameraButton.frame = CGRectMake(10, 10, 80, 40);
     [cancelCameraButton setBackgroundColor:backgroundColor];
     [cancelCameraButton.layer setCornerRadius:5.0];
@@ -81,6 +81,13 @@
 {
     if (delegate) {
         [delegate activateShutter];
+    }
+}
+
+- (void)cancelCamera:(id)sender
+{
+    if (delegate) {
+        [delegate cancelCamera];
     }
 }
 

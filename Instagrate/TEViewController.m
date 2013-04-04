@@ -21,6 +21,7 @@
 
 @implementation TEViewController {
     UIImagePickerController *imagePicker;
+    TECameraOverlayViewController *overlayViewController;
 }
 
 @synthesize docInteractionController;
@@ -97,7 +98,7 @@ bool hasImage;
         [imagePicker setDelegate:self];
         
         imagePicker.showsCameraControls = NO;
-        TECameraOverlayViewController *overlayViewController = [[TECameraOverlayViewController alloc] init];
+        overlayViewController = [[TECameraOverlayViewController alloc] init];
         [overlayViewController setDelegate:self];
         
         [imagePicker.cameraOverlayView addSubview:overlayViewController.view];
