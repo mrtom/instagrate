@@ -11,6 +11,8 @@
 #import <QuartzCore/QuartzCore.h>
 #import <math.h>
 
+#import "TECameraOverlayViewController.h"
+
 #define KEY @"photo.igo"
 #define INSTA_UTI @"com.instagram.photo"
 #define INSTA_CAPTION_KEY @"InstagramCaption"
@@ -93,6 +95,12 @@ bool hasImage;
         
         // OK, so we're on a device, and we have a camera. Awesome.
         [imagePicker setDelegate:self];
+        
+        imagePicker.showsCameraControls = YES;
+        UIViewController *overlayViewController = [[TECameraOverlayViewController alloc] init];
+        [overlayViewController.view setFrame:imagePicker.cameraOverlayView.frame];
+        [imagePicker.cameraOverlayView addSubview:overlayViewController.view];
+        
         [self presentViewController:imagePicker animated:YES completion:nil];
     } else {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Woah there!" message:@"You can't open a camera on the simulator. So I'll just put in a stock picture of my friend Claudia." delegate:nil cancelButtonTitle:@"Thanks kiddo!" otherButtonTitles:nil];

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		45544C51170DA6AB00B22FA4 /* TECameraOverlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45544C50170DA6AB00B22FA4 /* TECameraOverlayViewController.m */; };
 		455E294317037684004721CC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 455E294217037684004721CC /* UIKit.framework */; };
 		455E294517037684004721CC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 455E294417037684004721CC /* Foundation.framework */; };
 		455E294717037684004721CC /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 455E294617037684004721CC /* CoreGraphics.framework */; };
@@ -21,9 +22,12 @@
 		455E296617045E26004721CC /* remove.png in Resources */ = {isa = PBXBuildFile; fileRef = 455E296517045E26004721CC /* remove.png */; };
 		455E296817046128004721CC /* sample.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 455E296717046128004721CC /* sample.jpg */; };
 		455E296A170479EC004721CC /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 455E2969170479EC004721CC /* QuartzCore.framework */; };
+		45D6484C170DAEA100B2239A /* mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 45D6484B170DAEA100B2239A /* mask.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		45544C4F170DA6AB00B22FA4 /* TECameraOverlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TECameraOverlayViewController.h; sourceTree = "<group>"; };
+		45544C50170DA6AB00B22FA4 /* TECameraOverlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TECameraOverlayViewController.m; sourceTree = "<group>"; };
 		455E293F17037684004721CC /* Instagrate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Instagrate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		455E294217037684004721CC /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		455E294417037684004721CC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -43,6 +47,7 @@
 		455E296517045E26004721CC /* remove.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = remove.png; sourceTree = "<group>"; };
 		455E296717046128004721CC /* sample.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sample.jpg; sourceTree = "<group>"; };
 		455E2969170479EC004721CC /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		45D6484B170DAEA100B2239A /* mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mask.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +100,8 @@
 				455E295217037684004721CC /* TEAppDelegate.m */,
 				455E295A17037684004721CC /* TEViewController.h */,
 				455E295B17037684004721CC /* TEViewController.m */,
+				45544C4F170DA6AB00B22FA4 /* TECameraOverlayViewController.h */,
+				45544C50170DA6AB00B22FA4 /* TECameraOverlayViewController.m */,
 				455E295D17037684004721CC /* TEViewController.xib */,
 				455E294917037684004721CC /* Supporting Files */,
 			);
@@ -104,6 +111,7 @@
 		455E294917037684004721CC /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				45D6484B170DAEA100B2239A /* mask.png */,
 				455E296717046128004721CC /* sample.jpg */,
 				455E296517045E26004721CC /* remove.png */,
 				455E294A17037684004721CC /* Instagrate-Info.plist */,
@@ -176,6 +184,7 @@
 				455E295F17037684004721CC /* TEViewController.xib in Resources */,
 				455E296617045E26004721CC /* remove.png in Resources */,
 				455E296817046128004721CC /* sample.jpg in Resources */,
+				45D6484C170DAEA100B2239A /* mask.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -189,6 +198,7 @@
 				455E294F17037684004721CC /* main.m in Sources */,
 				455E295317037684004721CC /* TEAppDelegate.m in Sources */,
 				455E295C17037684004721CC /* TEViewController.m in Sources */,
+				45544C51170DA6AB00B22FA4 /* TECameraOverlayViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -313,6 +323,7 @@
 				455E296417037684004721CC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
