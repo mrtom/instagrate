@@ -56,7 +56,7 @@
     cancelCameraButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [cancelCameraButton addTarget:self
                            action:@selector(cancelCamera:) forControlEvents:UIControlEventTouchUpInside];
-    cancelCameraButton.frame = CGRectMake(10, 10, 80, 40);
+    cancelCameraButton.frame = CGRectMake(10, self.view.bounds.size.height - 10 - 40, 80, 40);
     [cancelCameraButton setBackgroundColor:backgroundColor];
     [cancelCameraButton.layer setCornerRadius:5.0];
     [cancelCameraButton.layer setBorderWidth:2.0];
