@@ -23,6 +23,7 @@
 		455E296817046128004721CC /* sample.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 455E296717046128004721CC /* sample.jpg */; };
 		455E296A170479EC004721CC /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 455E2969170479EC004721CC /* QuartzCore.framework */; };
 		45D6484C170DAEA100B2239A /* mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 45D6484B170DAEA100B2239A /* mask.png */; };
+		45D6484E170DD83200B2239A /* camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 45D6484D170DD83200B2239A /* camera.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +49,7 @@
 		455E296717046128004721CC /* sample.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sample.jpg; sourceTree = "<group>"; };
 		455E2969170479EC004721CC /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		45D6484B170DAEA100B2239A /* mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mask.png; sourceTree = "<group>"; };
+		45D6484D170DD83200B2239A /* camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +113,7 @@
 		455E294917037684004721CC /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				45D6484D170DD83200B2239A /* camera.png */,
 				45D6484B170DAEA100B2239A /* mask.png */,
 				455E296717046128004721CC /* sample.jpg */,
 				455E296517045E26004721CC /* remove.png */,
@@ -185,6 +188,7 @@
 				455E296617045E26004721CC /* remove.png in Resources */,
 				455E296817046128004721CC /* sample.jpg in Resources */,
 				45D6484C170DAEA100B2239A /* mask.png in Resources */,
+				45D6484E170DD83200B2239A /* camera.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

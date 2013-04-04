@@ -8,6 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TECameraOverlayViewController : UIViewController
+@protocol TECameraOverlayViewControllerDelegate
+- (void)activateShutter;
+- (void)cancelCamera;
+@end
+
+@interface TECameraOverlayViewController : UIViewController {
+    id <TECameraOverlayViewControllerDelegate> delegate;
+}
+
+@property (nonatomic, retain) id<TECameraOverlayViewControllerDelegate> delegate;
+
+-(void)imagePickerPresented;
 
 @end

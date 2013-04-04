@@ -11,8 +11,6 @@
 #import <QuartzCore/QuartzCore.h>
 #import <math.h>
 
-#import "TECameraOverlayViewController.h"
-
 #define KEY @"photo.igo"
 #define INSTA_UTI @"com.instagram.photo"
 #define INSTA_CAPTION_KEY @"InstagramCaption"
@@ -21,7 +19,9 @@
 
 @end
 
-@implementation TEViewController
+@implementation TEViewController {
+    UIImagePickerController *imagePicker;
+}
 
 @synthesize docInteractionController;
 
@@ -35,7 +35,7 @@ bool hasImage;
     textView.layer.borderColor = [UIColor lightGrayColor].CGColor;
     textView.layer.borderWidth = 1.0f;
     textView.layer.cornerRadius = 8.0;
-    textView.clipsToBounds = YES;
+    textView.clipsToBounds = YES;    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -87,7 +87,7 @@ bool hasImage;
         return;
     }
     
-    UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+    imagePicker = [[UIImagePickerController alloc] init];
     
     // Check camera is available (i.e. not simulator/iPod touch)
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
@@ -96,12 +96,14 @@ bool hasImage;
         // OK, so we're on a device, and we have a camera. Awesome.
         [imagePicker setDelegate:self];
         
-        imagePicker.showsCameraControls = YES;
-        UIViewController *overlayViewController = [[TECameraOverlayViewController alloc] init];
-        [overlayViewController.view setFrame:imagePicker.cameraOverlayView.frame];
-        [imagePicker.cameraOverlayView addSubview:overlayViewController.view];
+        imagePicker.showsCameraControls = NO;
+        TECameraOverlayViewController *overlayViewController = [[TECameraOverlayViewController alloc] init];
+        [overlayViewController setDelegate:self];
         
-        [self presentViewController:imagePicker animated:YES completion:nil];
+        [imagePicker.cameraOverlayView addSubview:overlayViewController.view];
+        [self presentViewController:imagePicker animated:YES completion:^{
+            [overlayViewController imagePickerPresented];
+        }];
     } else {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Woah there!" message:@"You can't open a camera on the simulator. So I'll just put in a stock picture of my friend Claudia." delegate:nil cancelButtonTitle:@"Thanks kiddo!" otherButtonTitles:nil];
         [alert show];
@@ -241,11 +243,23 @@ CGRect TransformCGRectForUIImageOrientation(CGRect source, UIImageOrientation or
     [self.docInteractionController presentOpenInMenuFromRect:self.view.bounds inView:self.view animated:YES];
 }
 
-#pragma mark UIDocumentInteractionControllerDelegate
+#pragma mark UIDocumentInteractionControllerDelegate methods
 
 - (UIViewController *)documentInteractionControllerViewControllerForPreview:(UIDocumentInteractionController *)interactionController
 {
     return self;
+}
+
+#pragma mark TECameraOverlayViewControllerDelegate methods
+
+- (void)activateShutter
+{
+    [imagePicker takePicture];
+}
+
+- (void)cancelCamera
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

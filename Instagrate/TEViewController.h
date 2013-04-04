@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+#import "TECameraOverlayViewController.h"
+
 @interface TEViewController : UIViewController
-    <UIImagePickerControllerDelegate, UIPopoverControllerDelegate, UINavigationControllerDelegate, UIDocumentInteractionControllerDelegate>
+    <UIImagePickerControllerDelegate, UIPopoverControllerDelegate, UINavigationControllerDelegate, UIDocumentInteractionControllerDelegate, TECameraOverlayViewControllerDelegate>
 {
     IBOutlet UITextView *textView;
     IBOutlet UIImageView *imageView;
