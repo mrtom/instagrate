@@ -2,6 +2,14 @@
 //  TEViewController.m
 //  Instagrate
 //
+//  Our main view controller. Uses a UIImagePickerController to allow the user to take a photo, and then
+//  uses the document interaction APIs to pass this on to Instagram, along with a custom message typed by
+//  the user, and our own hashtag.
+//
+//  In a real app, you'd be better off using an AVCaptureSession than the UIImagePickerController method,
+//  but it's simpler to understand what's going on this way IMO. Seeing as a snazzy looking camera is
+//  not the point of this example, I've stuck with UIImagePickerController
+//
 //  Created by Tom Elliott on 27/03/2013.
 //  Copyright (c) 2013 Tom Elliott. All rights reserved.
 //
@@ -49,12 +57,7 @@ bool hasImage;
     }
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
+// Setup the document controller to force Instagram to take control of the image
 - (void)setupDocumentControllerWithURL:(NSURL *)url
 {
     if (self.docInteractionController == nil)
@@ -80,6 +83,8 @@ bool hasImage;
     removePhotoButton.hidden = !imageSet;
 }
 
+// Use a UIImagePickerController to take a photo, and save it to disk
+// We then pass this photo to Instagram
 - (IBAction)takePhoto:(id)sender
 {
     if ([photoPickerPopover isPopoverVisible]) {
@@ -102,10 +107,9 @@ bool hasImage;
         [overlayViewController setDelegate:self];
         
         [imagePicker.cameraOverlayView addSubview:overlayViewController.view];
-        [self presentViewController:imagePicker animated:YES completion:^{
-            [overlayViewController imagePickerPresented];
-        }];
+        [self presentViewController:imagePicker animated:YES completion:nil];
     } else {
+        // When we don't have a camera, use a sample image
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Woah there!" message:@"You can't open a camera on the simulator. So I'll just put in a stock picture of my friend Claudia." delegate:nil cancelButtonTitle:@"Thanks kiddo!" otherButtonTitles:nil];
         [alert show];
         [imageView setImage:[UIImage imageNamed:@"sample.jpg"]];
@@ -120,26 +124,8 @@ bool hasImage;
     [self setHasImage:NO];
 }
 
-- (void)imagePickerController:(UIImagePickerController *)picker
-didFinishPickingMediaWithInfo:(NSDictionary *)info
-{
-    // Remove old image first, if necessary
-    if (hasImage) {
-        [self removePhoto:nil];
-    }
-    
-    // Save the new image
-    UIImage *originalImage = [info objectForKey:UIImagePickerControllerOriginalImage];
-    UIImage *image = [self cropImage:originalImage];
-    
-    [imageView setImage:image];
-    NSData *d = UIImageJPEGRepresentation(image, 1.0);
-    [d writeToFile:[self imagePath] atomically:YES];
-    
-    [self setHasImage:YES];
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
+// Make the image square, so it's better for Instagram.
+// TODO: This code can almost certainly be simplified for this our case
 - (UIImage *)cropImage:(UIImage *)originalImage
 {
     // TODO: This should be made more efficient by removing the
@@ -217,6 +203,7 @@ CGRect TransformCGRectForUIImageOrientation(CGRect source, UIImageOrientation or
     }
 }
 
+// Get an image path to save the image to
 - (NSString *)imagePath
 {
     NSArray *documentDirectories =
@@ -229,6 +216,7 @@ CGRect TransformCGRectForUIImageOrientation(CGRect source, UIImageOrientation or
     return [documentDirectory stringByAppendingPathComponent:KEY];
 }
 
+// Boilerplate. Remove the keyboard when you touch outside of the text input
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {    
     UITouch *touch = [[event allTouches] anyObject];
     if ([textView isFirstResponder] && [touch view] != textView) {
@@ -237,11 +225,33 @@ CGRect TransformCGRectForUIImageOrientation(CGRect source, UIImageOrientation or
     [super touchesBegan:touches withEvent:event];
 }
 
+// Actually perform the interaction to pass the image to Instagram
 - (IBAction)passToInstagram:(id)sender
 {
     NSURL* fileURL = [NSURL fileURLWithPath:[self imagePath]];
     [self setupDocumentControllerWithURL:fileURL];
     [self.docInteractionController presentOpenInMenuFromRect:self.view.bounds inView:self.view animated:YES];
+}
+
+# pragma mark UIImagePickerControllerDelegate methods
+- (void)imagePickerController:(UIImagePickerController *)picker
+didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    // Remove old image first, if necessary
+    if (hasImage) {
+        [self removePhoto:nil];
+    }
+    
+    // Save the new image
+    UIImage *originalImage = [info objectForKey:UIImagePickerControllerOriginalImage];
+    UIImage *image = [self cropImage:originalImage];
+    
+    [imageView setImage:image];
+    NSData *d = UIImageJPEGRepresentation(image, 1.0);
+    [d writeToFile:[self imagePath] atomically:YES];
+    
+    [self setHasImage:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark UIDocumentInteractionControllerDelegate methods

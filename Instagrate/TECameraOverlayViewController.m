@@ -2,6 +2,9 @@
 //  TECameraOverlayViewController.m
 //  Instagrate
 //
+//  This class provides the camera controls and a mask to make it look like
+//  our camera is square (Instagram style)
+//
 //  Created by Tom Elliott on 04/04/2013.
 //  Copyright (c) 2013 Tom Elliott. All rights reserved.
 //
@@ -25,6 +28,9 @@
 
 - (void)viewDidLoad
 {
+    // TODO: Run this on an iPhone 5. I suspect it won't layout properly at the moment, but I don't have
+    // one to test with (and we don't load the camera in the simulator).
+    // I should be using autolayout here instead of dumping things down by hand
     [super viewDidLoad];
     
     self.view.frame = [[UIScreen mainScreen] bounds];    
@@ -48,9 +54,7 @@
     activateShutterButton.frame = CGRectMake(130, 380, 60, 60);
     [activateShutterButton.layer setCornerRadius:30];
     [activateShutterButton.layer setBorderWidth:4.0];
-    [activateShutterButton.layer setBorderColor:backgroundColor.CGColor];
-    
-    [activateShutterButton setHidden:YES];
+    [activateShutterButton.layer setBorderColor:backgroundColor.CGColor];    
     [self.view addSubview:activateShutterButton];
     
     cancelCameraButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -62,14 +66,7 @@
     [cancelCameraButton.layer setBorderWidth:2.0];
     [cancelCameraButton.layer setBorderColor:[UIColor whiteColor].CGColor];
     [cancelCameraButton setTitle:@"Cancel" forState:UIControlStateNormal];
-    [cancelCameraButton setHidden:YES];
     [self.view addSubview:cancelCameraButton];
-}
-
--(void)imagePickerPresented
-{
-    activateShutterButton.hidden = NO;
-    cancelCameraButton.hidden = NO;
 }
 
 - (void)didReceiveMemoryWarning

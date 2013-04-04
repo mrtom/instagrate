@@ -19,6 +19,4 @@
 
 @property (nonatomic, retain) id<TECameraOverlayViewControllerDelegate> delegate;
 
--(void)imagePickerPresented;
-
 @end
